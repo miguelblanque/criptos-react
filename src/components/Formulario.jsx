@@ -1,5 +1,7 @@
-import {useEffect} from 'react'
+import {useEffect,useState} from 'react'
 import styled from '@emotion/styled'
+import Error from './Error'
+
 import useSelectMonedas from '../hooks/useSelectMonedas'
 import{ monedas} from '../data/monedas'
 
@@ -23,10 +25,15 @@ margin-top: 30px;
 }
 `
 
-const Formulario = () => {
+const Formulario = ({setMonedas}) => {
 
+    const [criptos,setCriptos] = useState([]);
+
+    const [error,setError] = useState(false);
    
     const [ moneda, SelectMonedas] = useSelectMonedas('Elige tu Moneda',monedas)
+
+    const [ criptomoneda, SelectCriptomonedas] = useSelectMonedas('Elige tu Criptomoneda',criptos)
 
     //useEffect para consumir la api de cotizacion de criptomonedas
     useEffect(()=>{
@@ -35,20 +42,49 @@ const Formulario = () => {
 
             const respuesta= await fetch(url)
             const resultado= await respuesta.json()
-            console.log(resultado.Data)
+            
+            const arrayCriptos =resultado.Data.map(cripto =>{
+               const objeto ={
+                 id: cripto.CoinInfo.Name,
+                 nombre: cripto.CoinInfo.FullName
+               }
+
+               return objeto
+            })
+            setCriptos(arrayCriptos)
         }
         consultarApi();
 
     }, [])
 
+    //Realizamos las validaciones antes de cotizar la criptomoneda
+    const handleSubmit = e => {
+      e.preventDefault()
+        if([moneda,criptomoneda].includes('')){
+          console.log('Error, campos no informados',[moneda,criptomoneda] )
+          setError(true)
+          return
+        }
+        setError(false)
+        console.log('Ok, campos  informados',[moneda,criptomoneda] )
+        setMonedas({moneda,criptomoneda})
+
+    
+    }
+
   return (
-    <form>
+    <>
+      {error && <Error>Todos los campos son obligatorios</Error>}
+    <form
+      onSubmit={handleSubmit}
+    >
         <SelectMonedas/>
 
-        {moneda}
+        <SelectCriptomonedas/>
 
         <InputSubmit type="submit" value="Cotizar"/>
     </form>
+    </>
   )
 }
 

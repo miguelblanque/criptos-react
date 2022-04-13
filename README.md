@@ -14,4 +14,6 @@ npm install @emotion/react @emotion/styled
 extension vscode-styled-components
 
 
-API ->https://min-api.cryptocompare.com/data/top/mktcapfull?limit=10&tsym=USD
+APIs
+Consultar Criptomonedas =>https://min-api.cryptocompare.com/data/top/mktcapfull?limit=10&tsym=USD
+Cotizar Criptomonedas =>https://min-api.cryptocompare.com/data/pricemultifull?fsyms=BTC&tsyms=USD
