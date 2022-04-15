@@ -2,6 +2,15 @@
 Aplicacion cotizador de criptomonedas en React  con Vite, styles Componentes, Custom Hooks y consumiendo api externa.
 
 
+![alt text](/src/img/Cotiza1.png)
+
+
+
+![alt text](/src/img/Cotiza2.png)
+
+
+
+
 npm init vite@latest
 cd criptos-react
 npm install
